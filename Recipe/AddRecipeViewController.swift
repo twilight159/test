@@ -9,7 +9,7 @@ import UIKit
 import RealmSwift
 import FirebaseStorage
 
-class AddRecipeViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class AddRecipeViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate, UITextViewDelegate {
     let realm = try! Realm()
     public var addHandler: (()->Void)?
     private let storage = Storage.storage().reference()
@@ -121,12 +121,37 @@ class AddRecipeViewController: UIViewController, UIImagePickerControllerDelegate
             task.resume()
         }
         
+        txtrname.becomeFirstResponder()
+        txtrecipetype.becomeFirstResponder()
+        txtringredient.becomeFirstResponder()
+        txtrsteps.becomeFirstResponder()
         
-        
+        txtrname.delegate = self
+        txtrecipetype.delegate = self
+        txtringredient.delegate = self
+        txtrsteps.delegate = self
         
         
         
         // Do any additional setup after loading the view.
+    }
+    
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        txtrname.resignFirstResponder()
+        txtrecipetype.resignFirstResponder()
+        
+        return true
+    }
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if text == "\n" {
+            txtringredient.resignFirstResponder()
+            txtrsteps.resignFirstResponder()
+            return false
+        }
+        return true
+        
     }
     
     func createAndSetupPickerView(){
@@ -254,7 +279,7 @@ class AddRecipeViewController: UIViewController, UIImagePickerControllerDelegate
 }
 
 
-extension AddRecipeViewController: UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate {
+extension AddRecipeViewController: UIPickerViewDelegate, UIPickerViewDataSource {
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }

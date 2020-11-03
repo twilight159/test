@@ -8,7 +8,7 @@
 import UIKit
 import RealmSwift
 
-class DetailViewController: UIViewController {
+class DetailViewController: UIViewController, UITextFieldDelegate, UITextViewDelegate {
     let realm = try! Realm()
     public var item: Recipe?
     public var editHandler: (()->Void)?
@@ -77,15 +77,41 @@ class DetailViewController: UIViewController {
             print("No Image")
         }
         
+
         
+        txtrecipename.becomeFirstResponder()
+        txtrecipeingredients.becomeFirstResponder()
+        txtrecipesteps.becomeFirstResponder()
         
-        
+        txtrecipename.delegate = self
+        txtrecipeingredients.delegate = self
+        txtrecipesteps.delegate = self
         
         
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(ToDoDelete))
         // Do any additional setup after loading the view.
     }
+    
+    
+
+
+func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    txtrecipename.resignFirstResponder()
+
+    
+    return true
+}
+
+func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+    if text == "\n" {
+        txtrecipeingredients.resignFirstResponder()
+        txtrecipesteps.resignFirstResponder()
+        return false
+    }
+    return true
+    
+}
     
     
     
