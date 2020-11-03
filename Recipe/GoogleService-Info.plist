@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>178254802521-fc7taq6qs0n0p5cse12q0rhrd2r4p0un.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.178254802521-fc7taq6qs0n0p5cse12q0rhrd2r4p0un</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAdy7lMCFRHY1bNtivqBHOd8_zxQROZCa4</string>
+	<key>GCM_SENDER_ID</key>
+	<string>178254802521</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>Aidan.Recipe</string>
+	<key>PROJECT_ID</key>
+	<string>recipe-6668b</string>
+	<key>STORAGE_BUCKET</key>
+	<string>recipe-6668b.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:178254802521:ios:f2095d9dacf2081a170b48</string>
+	<key>DATABASE_URL</key>
+	<string>https://recipe-6668b.firebaseio.com</string>
+</dict>
+</plist>
