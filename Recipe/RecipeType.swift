@@ -6,3 +6,13 @@
 //
 
 import Foundation
+import RealmSwift
+
+class RecipeType: Object {
+    @objc dynamic var id: Int = 0
+    @objc dynamic var recipetype: String = ""
+    
+    override static func primaryKey() -> String? {
+            return "id"
+        }
+}

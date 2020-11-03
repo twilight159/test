@@ -6,13 +6,100 @@
 //
 
 import UIKit
+import RealmSwift
 
 class DetailViewController: UIViewController {
-
+    let realm = try! Realm()
+    public var item: Recipe?
+    public var editHandler: (()->Void)?
+    public var deletionHandler: (()->Void)?
+    private var myRecipe = [Recipe]()
+    
+    
+    
+    @IBOutlet weak var txtrecipename: UITextField!
+    @IBOutlet weak var txtrecipetype: UITextField!
+    @IBOutlet weak var txtrecipeingredients: UITextView!
+    @IBOutlet weak var txtrecipesteps: UITextView!
+    @IBOutlet weak var imageView : UIImageView!
+    
+    @IBAction func BtnUpdate(_ sender: UIButton){
+        let rid = item?.id
+        let recipes = realm.objects(Recipe.self).filter("id == %@", rid).first
+        if recipes != nil {
+            try! realm.write{
+                recipes?.Rname = txtrecipename.text!
+                recipes?.Ingredients = txtrecipeingredients.text
+                recipes?.Steps = txtrecipesteps.text
+                editHandler?()
+            }
+        }
+        
+    }
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        imageView.contentMode = .scaleAspectFill
+        txtrecipename.text = item?.Rname
+        txtrecipetype.text = item?.RecType
+        txtrecipeingredients.text = item?.Ingredients
+        txtrecipesteps.text = item?.Steps
+        
+        
+        if item?.url != "" {
+            let pictureurl = URL(string: item!.url)!
+            let session = URLSession(configuration: .default)
+            let downloadPicTask = session.dataTask(with: pictureurl) {(data, response, error) in
+                if let e = error {
+                    print("Error downloading picture \(self.item?.id)")
+                } else {
+                    if let res = response as? HTTPURLResponse {
+                        print("Download picture with response code \(res.statusCode)")
+                        
+                        if let imageData = data{
+                            DispatchQueue.main.async {
+                                let image = UIImage(data: imageData)
+                                self.imageView.image = image
+                            }
+                            
+                        } else {
+                            print("Couldn't Get Image, Image is Nil.")
+                        }
+                    } else {
+                        print("Couldn't get response code.")
+                    }
+                }
+            }
+            downloadPicTask.resume()
+        } else {
+            print("No Image")
+        }
+        
+        
+        
+        
+        
+        
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(ToDoDelete))
         // Do any additional setup after loading the view.
+    }
+    
+    
+    
+    
+    @objc private func ToDoDelete(){
+        guard let myItem = self.item else {
+            return
+        }
+        realm.beginWrite()
+        
+        realm.delete(myItem)
+        try! realm.commitWrite()
+        deletionHandler?()
+        navigationController?.popToRootViewController(animated: true)
     }
     
 
